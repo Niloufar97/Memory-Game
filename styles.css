@@ -19,7 +19,6 @@ body{
     gap: 1rem;
 }
 .card{
-    background-color: beige;
     position: relative;
     cursor: pointer;
     width: 100%;
@@ -32,10 +31,13 @@ body{
     height: 100%;
     position: absolute;
     backface-visibility: hidden;
-    
+    border: 1px groove gray;
+    border-radius: 0.5rem;
 }
 .card-front{
-    background-color: blue;
+    background: url('./assets/images/v661-tk-17-watercolorpattern.jpg');
+    background-size: cover;
+    background-position: center center;
 }
 .card-back{
     transform: rotateY(180deg);
