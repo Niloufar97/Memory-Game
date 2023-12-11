@@ -35,13 +35,18 @@ const cards = [
     img: "./assets/images/cards/penguin.svg",
   },
 ];
-// double and shuffle cards------------------------------------------------------------
-const shufflingCards = () => {
+// doublecards----------------------------------------------------------------------
+const doublingCards = () =>{
   let doubleCards = [...cards, ...cards];
   const doubleCardsWithId = doubleCards.map((card, index) => {
     return { ...card, id: index + 1 };
   });
-  const shuffledCards = doubleCardsWithId.sort(() => Math.random() - 0.5);
+  return doubleCardsWithId
+}
+//shuffle cards------------------------------------------------------------
+const shufflingCards = () => {
+  const cards = doublingCards()
+  const shuffledCards = cards.sort(() => Math.random() - 0.5);
   return shuffledCards;
 };
 // create dynamic cards ----------------------------------------------------------------
