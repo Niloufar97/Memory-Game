@@ -65,8 +65,8 @@ const createCardDiv = (card) => {
   return cardDiv;
 };
 // flippingCards-----------------------------------------------------------------------------
-const flippingCards = (card) => {
-  card.classList.toggle("flipped");
+const flippingCards = (flipCard ) => {
+  flipCard .classList.toggle("flipped");
 };
 // rendering cards------------------------------------------------------------------------
 const updateCards = () => {
