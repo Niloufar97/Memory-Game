@@ -36,16 +36,16 @@ const cards = [
   },
 ];
 // doublecards----------------------------------------------------------------------
-const doublingCards = () =>{
+const doublingCards = () => {
   let doubleCards = [...cards, ...cards];
   const doubleCardsWithId = doubleCards.map((card, index) => {
     return { ...card, id: index + 1 };
   });
-  return doubleCardsWithId
-}
+  return doubleCardsWithId;
+};
 //shuffle cards------------------------------------------------------------
 const shufflingCards = () => {
-  const cards = doublingCards()
+  const cards = doublingCards();
   const shuffledCards = cards.sort(() => Math.random() - 0.5);
   return shuffledCards;
 };
@@ -53,6 +53,7 @@ const shufflingCards = () => {
 const createCardDiv = (card) => {
   const cardDiv = document.createElement("div");
   cardDiv.classList.add("card");
+  cardDiv.id = card.id;
   const frontCardDiv = document.createElement("div");
   frontCardDiv.classList.add("card-front");
   const backCardDiv = document.createElement("div");
@@ -65,10 +66,16 @@ const createCardDiv = (card) => {
   return cardDiv;
 };
 // flippingCards-----------------------------------------------------------------------------
-const flippingCards = (flipCard ) => {
-  flipCard .classList.toggle("flipped");
+const flippingCards = (flipCard) => {
+  flipCard.classList.add("flipped");
 };
-// rendering cards------------------------------------------------------------------------
+// flippingBack cars-------------------------------------------------------------------
+let flipingBackCard = (flipBack) => {
+  flipBack.classList.remove("flipped");
+};
+// rendering cards-----------------------------------------------------------------
+let selectedCards = [];
+let counter = 0;
 const updateCards = () => {
   const shuffledcards = shufflingCards();
   const renderShuffledCards = () => {
@@ -76,7 +83,19 @@ const updateCards = () => {
       const cardDiv = createCardDiv(card);
       cardContainer.appendChild(cardDiv);
       cardDiv.addEventListener("click", () => {
-        flippingCards(cardDiv);
+        counter++;
+        if (counter < 3 && !selectedCards.includes(card)) {
+          PushCardInArray(card, cardDiv);
+          //check match
+        }
+        if (counter >= 3 && !selectedCards.includes(card)) {
+          FlipbackSelected();
+          selectedCards = [];
+          PushCardInArray(card, cardDiv);
+          counter = 1;
+        }
+
+        console.log(selectedCards);
       });
     });
   };
@@ -88,3 +107,14 @@ newGameButton.addEventListener("click", () => {
   cardContainer.innerHTML = "";
   updateCards();
 });
+function FlipbackSelected() {
+  selectedCards.forEach((element) => {
+    flipingBackCard(document.getElementById(`${element.id}`));
+    //todo: flip all back except ones with class fixed
+  });
+}
+
+function PushCardInArray(card, cardDiv) {
+  selectedCards.push(card);
+  flippingCards(cardDiv);
+}
