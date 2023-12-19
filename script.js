@@ -108,10 +108,13 @@ newGameButton.addEventListener("click", () => {
   updateCards();
 });
 function FlipbackSelected() {
-  selectedCards.forEach((element) => {
-    flipingBackCard(document.getElementById(`${element.id}`));
-    //todo: flip all back except ones with class fixed
-  });
+  setTimeout(() =>{
+    selectedCards.forEach((element) => {
+      flipingBackCard(document.getElementById(`${element.id}`));
+      //todo: flip all back except ones with class fixed
+    });
+
+  } ,2000)
 }
 
 function PushCardInArray(card, cardDiv) {
