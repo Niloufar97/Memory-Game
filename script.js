@@ -82,13 +82,42 @@ const updateCards = () => {
       const cardDiv = createCardDiv(card);
       cardContainer.appendChild(cardDiv);
       cardDiv.addEventListener("click", () => {
-        flippingCards(cardDiv)
+        clickHandker(cardDiv,card)
       });
     });
   };
   renderShuffledCards();
 };
 updateCards();
+// click handler function----------------------------------------------------
+function clickHandker (cardDiv , card){
+  flippingCards(cardDiv);
+  selectedCards.push(card);
+  console.log(selectedCards)
+  if(selectedCards.length === 2){
+    checkMatch()
+  }
+}
+// checkMatch function--------------------------------------------------------
+function checkMatch() {
+  let firstCard = selectedCards[0];
+  let secondCard = selectedCards[1];
+  let firstCardDiv = document.getElementById(`${firstCard.id}`)
+  let secondCardDiv = document.getElementById(`${secondCard.id}`)
+  if(firstCard.name === secondCard.name){
+    firstCardDiv.classList.add('flipped');
+    secondCardDiv.classList.add('flipped');
+    selectedCards = []
+  }
+  else{
+    setTimeout(() => {
+      flipingBackCard(firstCardDiv)
+      flipingBackCard(secondCardDiv);
+    } , 1000)
+    selectedCards = []
+  }
+}
+
 // new game button fuction------------------------------------------------
 newGameButton.addEventListener("click", () => {
   cardContainer.innerHTML = "";
