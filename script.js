@@ -1,5 +1,8 @@
 const cardContainer = document.querySelector(".card-container");
 const newGameButton = document.getElementById("new-game-btn");
+// timer
+const seconds = document.getElementById("seconds");
+const minutes = document.getElementById("minutes");
 
 const cards = [
   {
@@ -35,9 +38,14 @@ const cards = [
     img: "./assets/images/cards/penguin.svg",
   },
 ];
+
 let selectedCards = [];
 const matchedCards = [];
+let clickCounter = 0;
+let timer = null;
+
 // doublecards----------------------------------------------------------------------
+
 const doublingCards = () => {
   let doubleCards = [...cards, ...cards];
   const doubleCardsWithId = doubleCards.map((card, index) => {
@@ -45,13 +53,17 @@ const doublingCards = () => {
   });
   return doubleCardsWithId;
 };
+
 //shuffle cards------------------------------------------------------------
+
 const shufflingCards = () => {
   const cards = doublingCards();
   const shuffledCards = cards.sort(() => Math.random() - 0.5);
   return shuffledCards;
 };
+
 // create dynamic cards ----------------------------------------------------------------
+
 const createCardDiv = (card) => {
   const cardDiv = document.createElement("div");
   cardDiv.classList.add("card");
@@ -67,11 +79,14 @@ const createCardDiv = (card) => {
   cardDiv.appendChild(backCardDiv);
   return cardDiv;
 };
-// flippingCards-----------------------------------------------------------------------------
+
+// flippingCards-------------------------------------------------------------------
+
 const flippingCards = (flipCard) => {
   flipCard.classList.add("flipped");
 };
-// flippingBack cars-------------------------------------------------------------------
+// flippingBack cars--------------------------------------------------------------
+
 let flipingBackCard = (flipBack) => {
   flipBack.classList.remove("flipped");
 };
@@ -84,48 +99,72 @@ const updateCards = () => {
       const cardDiv = createCardDiv(card);
       cardContainer.appendChild(cardDiv);
       cardDiv.addEventListener("click", () => {
-        clickHandker(cardDiv,card)
+        clickCounter++;
+        if(clickCounter === 1){
+          startTimer()
+        }
+        clickHandker(cardDiv, card);
       });
     });
   };
   renderShuffledCards();
 };
 updateCards();
+
 // click handler function----------------------------------------------------
-function clickHandker (cardDiv , card){
+
+function clickHandker(cardDiv, card) {
   flippingCards(cardDiv);
-  if(!matchedCards.includes(card)){
+  if (!matchedCards.includes(card)) {
     selectedCards.push(card);
   }
-  console.log(selectedCards)
-  if(selectedCards.length === 2){
-    checkMatch()
-  }
-}
-// checkMatch function--------------------------------------------------------
-function checkMatch() {
-  let firstCard = selectedCards[0];
-  let secondCard = selectedCards[1];
-  let firstCardDiv = document.getElementById(`${firstCard.id}`)
-  let secondCardDiv = document.getElementById(`${secondCard.id}`)
-  if(firstCard.name === secondCard.name){
-    firstCardDiv.classList.add('flipped');
-    secondCardDiv.classList.add('flipped');
-    selectedCards = []
-    matchedCards.push(firstCard);
-    matchedCards.push(secondCard);
-    console.log(`matched : ${matchedCards}`)
-  }
-  else{
-    setTimeout(() => {
-      flipingBackCard(firstCardDiv)
-      flipingBackCard(secondCardDiv);
-    } , 1000)
-    selectedCards = []
+  console.log(selectedCards);
+  if (selectedCards.length === 2) {
+    checkMatch();
   }
 }
 
+// checkMatch function--------------------------------------------------------
+
+function checkMatch() {
+  let firstCard = selectedCards[0];
+  let secondCard = selectedCards[1];
+  let firstCardDiv = document.getElementById(`${firstCard.id}`);
+  let secondCardDiv = document.getElementById(`${secondCard.id}`);
+  if (firstCard.name === secondCard.name) {
+    firstCardDiv.classList.add("flipped");
+    secondCardDiv.classList.add("flipped");
+    selectedCards = [];
+    matchedCards.push(firstCard);
+    matchedCards.push(secondCard);
+    console.log(`matched : ${matchedCards}`);
+  } else {
+    setTimeout(() => {
+      flipingBackCard(firstCardDiv);
+      flipingBackCard(secondCardDiv);
+    }, 1000);
+    selectedCards = [];
+  }
+}
+
+// start timer function------------------------------------------------
+
+const startTimer = () => {
+  let second = 0;
+  let minute = 0;
+  setInterval(() => {
+    second++;
+    if (second >= 60) {
+      second = 0;
+      minute++;
+    }
+    seconds.textContent = second;
+    minutes.textContent = minute;
+  }, 1000);
+};
+
 // new game button fuction------------------------------------------------
+
 newGameButton.addEventListener("click", () => {
   cardContainer.innerHTML = "";
   updateCards();
