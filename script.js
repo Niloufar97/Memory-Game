@@ -35,6 +35,8 @@ const cards = [
     img: "./assets/images/cards/penguin.svg",
   },
 ];
+let selectedCards = [];
+const matchedCards = [];
 // doublecards----------------------------------------------------------------------
 const doublingCards = () => {
   let doubleCards = [...cards, ...cards];
@@ -74,7 +76,7 @@ let flipingBackCard = (flipBack) => {
   flipBack.classList.remove("flipped");
 };
 // rendering cards-----------------------------------------------------------------
-let selectedCards = [];
+
 const updateCards = () => {
   const shuffledcards = shufflingCards();
   const renderShuffledCards = () => {
@@ -92,7 +94,9 @@ updateCards();
 // click handler function----------------------------------------------------
 function clickHandker (cardDiv , card){
   flippingCards(cardDiv);
-  selectedCards.push(card);
+  if(!matchedCards.includes(card)){
+    selectedCards.push(card);
+  }
   console.log(selectedCards)
   if(selectedCards.length === 2){
     checkMatch()
@@ -108,6 +112,9 @@ function checkMatch() {
     firstCardDiv.classList.add('flipped');
     secondCardDiv.classList.add('flipped');
     selectedCards = []
+    matchedCards.push(firstCard);
+    matchedCards.push(secondCard);
+    console.log(`matched : ${matchedCards}`)
   }
   else{
     setTimeout(() => {
