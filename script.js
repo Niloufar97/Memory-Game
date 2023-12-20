@@ -152,7 +152,7 @@ function checkMatch() {
 const startTimer = () => {
   let second = 0;
   let minute = 0;
-  setInterval(() => {
+  timer = setInterval(() => {
     second++;
     if (second >= 60) {
       second = 0;
@@ -163,9 +163,19 @@ const startTimer = () => {
   }, 1000);
 };
 
+// stop timer function---------------------------------------------------
+
+const stopTimer = () =>{
+  clearInterval(timer)
+}
+
 // new game button fuction------------------------------------------------
 
 newGameButton.addEventListener("click", () => {
   cardContainer.innerHTML = "";
   updateCards();
+  clickCounter = 0;
+  seconds.textContent = 0;
+  minutes.textContent = 0 ;
+  stopTimer()
 });
