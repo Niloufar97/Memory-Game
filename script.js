@@ -138,12 +138,21 @@ function checkMatch() {
   let secondCard = selectedCards[1];
   let firstCardDiv = document.getElementById(`${firstCard.id}`);
   let secondCardDiv = document.getElementById(`${secondCard.id}`);
+
   if (firstCard.name === secondCard.name) {
     firstCardDiv.classList.add("flipped");
     secondCardDiv.classList.add("flipped");
     selectedCards = [];
+
     matchedCards.push(firstCard);
     matchedCards.push(secondCard);
+    
+    // check if all cards matched
+    if(matchedCards.length === 16){
+      stopTimer()
+      alert('you win')
+    }
+    
   } else {
     setTimeout(() => {
       flipingBackCard(firstCardDiv);
@@ -192,3 +201,5 @@ newGameButton.addEventListener("click", () => {
   movementsCounter = 0;
   movementsContainer.textContent = 0 ;
 });
+
+// game ends -------------------------------------------------------------------
