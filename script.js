@@ -3,6 +3,8 @@ const newGameButton = document.getElementById("new-game-btn");
 // timer
 const seconds = document.getElementById("seconds");
 const minutes = document.getElementById("minutes");
+// movements
+const movementsContainer = document.getElementById("movements");
 
 const cards = [
   {
@@ -42,6 +44,7 @@ const cards = [
 let selectedCards = [];
 const matchedCards = [];
 let clickCounter = 0;
+let movementsCounter = 0;
 let timer = null;
 
 // doublecards----------------------------------------------------------------------
@@ -99,10 +102,6 @@ const updateCards = () => {
       const cardDiv = createCardDiv(card);
       cardContainer.appendChild(cardDiv);
       cardDiv.addEventListener("click", () => {
-        clickCounter++;
-        if(clickCounter === 1){
-          startTimer()
-        }
         clickHandker(cardDiv, card);
       });
     });
@@ -114,13 +113,21 @@ updateCards();
 // click handler function----------------------------------------------------
 
 function clickHandker(cardDiv, card) {
+  clickCounter++;
+  if (clickCounter === 1) {
+    startTimer();
+  }
+
   flippingCards(cardDiv);
+
   if (!matchedCards.includes(card)) {
     selectedCards.push(card);
   }
-  console.log(selectedCards);
+
   if (selectedCards.length === 2) {
     checkMatch();
+    movementsCounter++;
+    movementsContainer.textContent = movementsCounter;
   }
 }
 
@@ -137,7 +144,6 @@ function checkMatch() {
     selectedCards = [];
     matchedCards.push(firstCard);
     matchedCards.push(secondCard);
-    console.log(`matched : ${matchedCards}`);
   } else {
     setTimeout(() => {
       flipingBackCard(firstCardDiv);
@@ -165,17 +171,24 @@ const startTimer = () => {
 
 // stop timer function---------------------------------------------------
 
-const stopTimer = () =>{
-  clearInterval(timer)
-}
+const stopTimer = () => {
+  clearInterval(timer);
+};
 
 // new game button fuction------------------------------------------------
 
 newGameButton.addEventListener("click", () => {
+  // reset cards
   cardContainer.innerHTML = "";
   updateCards();
+
+  // reset timer
   clickCounter = 0;
   seconds.textContent = 0;
-  minutes.textContent = 0 ;
-  stopTimer()
+  minutes.textContent = 0;
+  stopTimer();
+
+  // reset movements
+  movementsCounter = 0;
+  movementsContainer.textContent = 0 ;
 });
