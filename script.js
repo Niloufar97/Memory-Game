@@ -120,7 +120,7 @@ function clickHandker(cardDiv, card) {
 
   flippingCards(cardDiv);
 
-  if (!matchedCards.includes(card)) {
+  if (!matchedCards.includes(card) && !selectedCards.includes(card)) {
     selectedCards.push(card);
   }
 
