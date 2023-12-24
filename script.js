@@ -2,7 +2,6 @@ const cardContainer = document.querySelector(".card-container");
 const newGameButton = document.getElementById("new-game-btn");
 // timer
 const seconds = document.getElementById("seconds");
-const minutes = document.getElementById("minutes");
 // movements
 const movementsContainer = document.getElementById("movements");
 
@@ -173,8 +172,8 @@ const startTimer = () => {
       second = 0;
       minute++;
     }
-    seconds.textContent = second;
-    minutes.textContent = minute;
+    const formattedTime = `${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`;
+    seconds.textContent = formattedTime;
   }, 1000);
 };
 
@@ -193,8 +192,7 @@ newGameButton.addEventListener("click", () => {
 
   // reset timer
   clickCounter = 0;
-  seconds.textContent = 0;
-  minutes.textContent = 0;
+  seconds.textContent = "00:00";
   stopTimer();
 
   // reset movements
