@@ -102,7 +102,7 @@ const updateCards = () => {
       const cardDiv = createCardDiv(card);
       cardContainer.appendChild(cardDiv);
       cardDiv.addEventListener("click", () => {
-        clickHandker(cardDiv, card);
+        clickHandler(cardDiv, card);
       });
     });
   };
