@@ -112,7 +112,7 @@ updateCards();
 
 // click handler function----------------------------------------------------
 
-function clickHandker(cardDiv, card) {
+function clickHandler(cardDiv, card) {
   clickCounter++;
   if (clickCounter === 1) {
     startTimer();
