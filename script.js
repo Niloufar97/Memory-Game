@@ -18,6 +18,7 @@ fetch("http://localhost:3000/cards")
     let clickCounter = 0;
     let movementsCounter = 0;
     let timer = null;
+    let timeoutId = null;
 
     // doublecards----------------------------------------------------------------------
 
@@ -101,6 +102,15 @@ fetch("http://localhost:3000/cards")
         movementsCounter++;
         movementsContainer.textContent = movementsCounter;
       }
+
+      if(selectedCards.length >=3 ){
+        clearTimeout(timeoutId);
+        selectedCards.forEach(selectedCard => {
+          const cardDiv = document.getElementById(`${selectedCard.id}`);
+          flipingBackCard(cardDiv);
+          selectedCards = []
+        })
+      }
     }
 
     // checkMatch function--------------------------------------------------------
@@ -127,11 +137,12 @@ fetch("http://localhost:3000/cards")
           }, 1000);
         }
       } else {
-        setTimeout(() => {
+        timeoutId = setTimeout(() => {
           flipingBackCard(firstCardDiv);
           flipingBackCard(secondCardDiv);
-        }, 600);
-        selectedCards = [];
+          selectedCards = [];
+          timeoutId = null;
+        }, 1500);
       }
     }
 
