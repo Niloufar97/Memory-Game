@@ -1,5 +1,9 @@
 const cardContainer = document.querySelector(".card-container");
-const newGameButton = document.getElementById("new-game-btn");
+const alertContainer = document.querySelector("[data-id='alert-container']");
+const alertOverlay = document.querySelector("[data-id='alert-overlay']");
+const winTime = document.querySelector("[data-id='win-time']");
+const winMovements = document.querySelector("[data-id='win-movements']");
+const newGameButtons = document.querySelectorAll("[data-id='new-game-btn']");
 // timer
 const seconds = document.getElementById("seconds");
 // movements
@@ -119,14 +123,14 @@ fetch("http://localhost:3000/cards")
         if (matchedCards.length === 16) {
           stopTimer();
           setTimeout(() => {
-            alert("you win");
+            winAlert();
           }, 1000);
         }
       } else {
         setTimeout(() => {
           flipingBackCard(firstCardDiv);
           flipingBackCard(secondCardDiv);
-        }, 1000);
+        }, 600);
         selectedCards = [];
       }
     }
@@ -156,19 +160,28 @@ fetch("http://localhost:3000/cards")
     };
 
     // new game button fuction------------------------------------------------
-
-    newGameButton.addEventListener("click", () => {
-      // reset cards
-      cardContainer.innerHTML = "";
-      updateCards();
-
-      // reset timer
-      clickCounter = 0;
-      seconds.textContent = "00:00";
-      stopTimer();
-
-      // reset movements
-      movementsCounter = 0;
-      movementsContainer.textContent = 0;
+    newGameButtons.forEach(newGameButton => {
+      newGameButton.addEventListener("click", () => {
+        alertOverlay.style.display = 'none';
+        alertContainer.style.display = 'none';
+        // reset cards
+        cardContainer.innerHTML = "";
+        updateCards();
+  
+        // reset timer
+        clickCounter = 0;
+        seconds.textContent = "00:00";
+        stopTimer();
+  
+        // reset movements
+        movementsCounter = 0;
+        movementsContainer.textContent = 0;
+      });
     });
   });
+  const winAlert = () => {
+    alertOverlay.style.display = 'block';
+    alertContainer.style.display = 'block';
+    winMovements.innerText = movementsContainer.textContent;
+    winTime.innerText = seconds.textContent
+  }
