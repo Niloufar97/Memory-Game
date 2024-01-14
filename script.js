@@ -30,8 +30,8 @@ let timeoutId = null;
 
 const updateCards = (cards) => {
   const doubledCards = doublingCards(cards)
-  const shuffledcards = shufflingCards(doubledCards);
-    shuffledcards.forEach((card) => {
+  const shuffledCards = shufflingCards(doubledCards);
+  shuffledCards.forEach((card) => {
       const cardDiv = createCardDiv(card);
       cardContainer.appendChild(cardDiv);
       cardDiv.addEventListener("click", () => {
