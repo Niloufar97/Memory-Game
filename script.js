@@ -22,7 +22,7 @@ startGameButton.addEventListener('click' , () => {
 
 function getData() {
   fetch(
-    "https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/cards.json"
+    "https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/gifts.json"
   )
     .then((response) => response.json())
     .then((cards) => {

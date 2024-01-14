@@ -121,8 +121,8 @@ body{
 }
 .alert-container{
     display: none;
-    width: 31rem;
-    height: 16rem;
+    width: 39rem;
+    height: 20rem;
     padding: 1rem;
     text-align: center;
     z-index: 20;
@@ -135,16 +135,17 @@ body{
     transform: translateY(-50%);
 }
 .win-message{
-    margin: 1.5rem;
-    font-size: 2rem;
+    margin: 2rem;
+    font-size: 3rem;
 }
-/* .time-and-movement .total-time,.time-and-movement .total-movenents {
+
+.time-and-movement .total-time,.time-and-movement .total-movenents {
     padding: 0.5rem;
-} */
+}
 .alert-button{
-    margin: 1rem;
+    margin: 1.2rem;
     padding: 0.25rem;
-    width: 10rem;
+    width: 15rem;
     border-radius: 1rem;
     cursor: pointer;
     background-color: rgb(201, 234, 247);
