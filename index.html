@@ -10,19 +10,30 @@
 </head>
 
 <body>
-    <section data-id="main-container">
-        <button type="button" data-id="new-game-btn">New Game</button>
-        <div class="timer-container">
-            <span>Time:</span>
-            <p>
-                <span id="seconds">00:00</span>
-            </p>
+    <section data-id="welcome-page" class="welcome-page">
+        <div class="welcome-text">
+            <h4>Let's play,</h4>
+            <h1>MEMORY GAME</h1>
         </div>
-        <div class="movements-container">
-            <span>Movements:</span>
-            <p id="movements">0</p>
+        <div class="start-game">
+            <button data-id="start-game-btn" class="start-game-btn">START</button>
+        </div>
+    </section>
+    <section data-id="game" class="game">
+        <div class="info">
+            <div class="timer-container">
+                <span>Time:</span>
+                <span id="seconds">00:00</span>
+            </div>
+            <div class="movements-container">
+                <span>Movements:</span>
+                <span id="movements">0</span>
+            </div>
         </div>
         <div class="card-container">
+        </div>
+        <div class="new-game-btn">
+            <button type="button" data-id="new-game-btn" >New Game</button>
         </div>
         <!------------------- WIN POPUP-------------->
         <div class="alert-container" data-id="alert-container">

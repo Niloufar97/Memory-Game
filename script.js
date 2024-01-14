@@ -8,6 +8,16 @@ const newGameButtons = document.querySelectorAll("[data-id='new-game-btn']");
 const seconds = document.getElementById("seconds");
 // movements
 const movementsContainer = document.getElementById("movements");
+// welcome section
+const welcomePageSection = document.querySelector('[data-id = "welcome-page"]');
+const startGameButton = document.querySelector('[data-id = "start-game-btn"]');
+// game section
+const gameSection = document.querySelector("[data-id = 'game']")
+// navigate to game page
+startGameButton.addEventListener('click' , () => {
+  welcomePageSection.style.display = "none";
+  gameSection.style.display = 'block';
+})
 // fetch Data----------------------------------------------
 
 function getData() {
