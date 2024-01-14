@@ -29,7 +29,8 @@ let timeoutId = null;
 // rendering cards-----------------------------------------------------------------
 
 const updateCards = (cards) => {
-  const shuffledcards = shufflingCards(cards);
+  const doubledCards = doublingCards(cards)
+  const shuffledcards = shufflingCards(doubledCards);
     shuffledcards.forEach((card) => {
       const cardDiv = createCardDiv(card);
       cardContainer.appendChild(cardDiv);
@@ -42,8 +43,7 @@ const updateCards = (cards) => {
 //shuffle cards------------------------------------------------------------
 
 const shufflingCards = (cards) => {
-  const doubledCards = doublingCards(cards);
-  const shuffledCards = doubledCards.sort(() => Math.random() - 0.5);
+  const shuffledCards = cards.sort(() => Math.random() - 0.5);
   return shuffledCards;
 };
 
