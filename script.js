@@ -144,7 +144,7 @@ function checkMatch() {
     matchedCards.push(secondCard);
 
     // check if all cards matched
-    if (matchedCards.length === 16) {
+    if (matchedCards.length % 16 === 0) {
       stopTimer();
       setTimeout(() => {
         winAlert();
