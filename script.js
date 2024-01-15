@@ -10,21 +10,40 @@ const seconds = document.getElementById("seconds");
 const movementsContainer = document.getElementById("movements");
 // welcome section
 const welcomePageSection = document.querySelector('[data-id = "welcome-page"]');
-const startGameButton = document.querySelector('[data-id = "start-game-btn"]');
+const easyLevelButton = document.querySelector('[data-id = "easy-level"]');
+const hardLevelButton = document.querySelector('[data-id = "hard-level"]');
 // game section
 const gameSection = document.querySelector("[data-id = 'game']")
-// navigate to game page
-startGameButton.addEventListener('click' , () => {
+
+// navigate to game page------------------------------------------------------
+
+easyLevelButton.addEventListener('click' , () => {
+  isEasyGame = true;
   welcomePageSection.style.display = "none";
   gameSection.style.display = 'block';
+  easyLevelData()
+})
+hardLevelButton.addEventListener('click' , () => {
+  isEasyGame = false;
+  welcomePageSection.style.display = "none";
+  gameSection.style.display = 'block';
+  cardContainer.style.gridTemplateColumns ='repeat(5 , 1fr)'
+  hardLevelData()
 })
 // fetch Data----------------------------------------------
-async function getData(){
+
+async function easyLevelData(){
   const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/gifts.json");
   const cards = await response.json();
   updateCards(cards);
 }
+async function hardLevelData(){
+  const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/cactus.json");
+  const cards = await response.json();
+  updateCards(cards);
+}
 
+let isEasyGame ;
 let selectedCards = [];
 const matchedCards = [];
 let clickCounter = 0;
@@ -103,7 +122,7 @@ function clickHandler(cardDiv, card) {
 
   flippingCards(cardDiv);
 
-  if (!matchedCards.includes(card) && !selectedCards.includes(card)) {
+  if (!matchedCards.includes(card) && !selectedCards.includes(card)){
     selectedCards.push(card);
   }
 
@@ -187,7 +206,11 @@ newGameButtons.forEach((newGameButton) => {
     alertContainer.style.display = "none";
     // reset cards
     cardContainer.innerHTML = "";
-    getData()
+    if(isEasyGame){
+      easyLevelData()
+    }else{
+      hardLevelData()
+    }
 
     // reset timer
     clickCounter = 0;
@@ -206,5 +229,3 @@ const winAlert = () => {
   winMovements.innerText = movementsContainer.textContent;
   winTime.innerText = seconds.textContent;
 };
-
-getData()
