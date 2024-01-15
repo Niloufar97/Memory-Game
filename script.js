@@ -19,16 +19,12 @@ startGameButton.addEventListener('click' , () => {
   gameSection.style.display = 'block';
 })
 // fetch Data----------------------------------------------
-
-function getData() {
-  fetch(
-    "https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/gifts.json"
-  )
-    .then((response) => response.json())
-    .then((cards) => {
-      updateCards(cards);
-    });
+async function getData(){
+  const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/gifts.json");
+  const cards = await response.json();
+  updateCards(cards);
 }
+
 let selectedCards = [];
 const matchedCards = [];
 let clickCounter = 0;
