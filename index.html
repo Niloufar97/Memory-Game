@@ -1,25 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles.css">
-    <script src="./script.js" defer ></script>
+    <script src="./script.js" defer></script>
     <title>Memory Game</title>
 </head>
+
 <body>
-    <button type="button" id="new-game-btn">New Game</button>
-    <div class="timer-container">
-        <span>Time:</span>
-        <p>
-            <span id="seconds">00:00</span>
-        </p>
-    </div>
-    <div class="movements-container">
-        <span>Movements:</span>
-        <p id="movements">0</p>
-    </div>
-    <div class="card-container">
-   </div> 
+    <section data-id="welcome-page" class="welcome-page">
+        <div class="welcome-text">
+            <h4>Let's play,</h4>
+            <h1>MEMORY GAME</h1>
+        </div>
+        <div class="start-game">
+            <button data-id="start-game-btn" class="start-game-btn">START</button>
+        </div>
+    </section>
+    <section data-id="game" class="game">
+        <div class="info">
+            <div class="timer-container">
+                <span>Time:</span>
+                <span id="seconds">00:00</span>
+            </div>
+            <div class="movements-container">
+                <span>Movements:</span>
+                <span id="movements">0</span>
+            </div>
+        </div>
+        <div class="card-container">
+        </div>
+        <div class="new-game-btn">
+            <button type="button" data-id="new-game-btn" >New Game</button>
+        </div>
+        <!------------------- WIN POPUP-------------->
+        <div class="alert-container" data-id="alert-container">
+            <h2 class="win-message">✨ YOU WIN ✨</h2>
+            <div class="time-and-movement">
+                <p class="total-time">Total Time : <span data-id="win-time"></span></p>
+                <p class="total-movenents">Total Movements : <span data-id="win-movements"></span></p>
+            </div>
+            <button type="button" data-id="new-game-btn" class="alert-button">New Game</button>
+        </div>
+        <div class="alert-overlay" data-id="alert-overlay"></div>
+    </section>
+
 </body>
+
 </html>

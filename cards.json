@@ -1,0 +1,37 @@
+{
+    "cards" : [
+        {
+            "name" : "bear",
+            "img":"https://www.svgrepo.com/show/530188/bear.svg"
+        },
+        {
+            "name" : "crab",
+            "img":"https://www.svgrepo.com/show/530182/crab.svg"
+        },
+        {
+            "name" : "shrimp",
+            "img":"https://www.svgrepo.com/show/530189/shrimp.svg"
+        },
+        {
+            "name" : "lion",
+            "img":"https://www.svgrepo.com/show/530191/lion.svg"
+        },
+        {
+            "name" : "zebra",
+            "img":"https://www.svgrepo.com/show/530199/cute-animals.svg"
+        },
+        {
+            "name" : "fox",
+            "img":"https://www.svgrepo.com/show/530198/fox.svg"
+        },
+        {
+            "name" : "jellyfish",
+            "img":"https://www.svgrepo.com/show/530184/jellyfish.svg"
+        },
+        
+        {
+            "name" : "penguin",
+            "img":"https://www.svgrepo.com/show/530185/penguin.svg"
+        }
+    ]
+}

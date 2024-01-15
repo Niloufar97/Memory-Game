@@ -1,68 +1,72 @@
 const cardContainer = document.querySelector(".card-container");
-const newGameButton = document.getElementById("new-game-btn");
+const alertContainer = document.querySelector("[data-id='alert-container']");
+const alertOverlay = document.querySelector("[data-id='alert-overlay']");
+const winTime = document.querySelector("[data-id='win-time']");
+const winMovements = document.querySelector("[data-id='win-movements']");
+const newGameButtons = document.querySelectorAll("[data-id='new-game-btn']");
 // timer
 const seconds = document.getElementById("seconds");
 // movements
 const movementsContainer = document.getElementById("movements");
+// welcome section
+const welcomePageSection = document.querySelector('[data-id = "welcome-page"]');
+const startGameButton = document.querySelector('[data-id = "start-game-btn"]');
+// game section
+const gameSection = document.querySelector("[data-id = 'game']")
+// navigate to game page
+startGameButton.addEventListener('click' , () => {
+  welcomePageSection.style.display = "none";
+  gameSection.style.display = 'block';
+})
+// fetch Data----------------------------------------------
 
-const cards = [
-  {
-    name: "bear",
-    img: "./assets/images/cards/bear.svg",
-  },
-  {
-    name: "crab",
-    img: "./assets/images/cards/crab.svg",
-  },
-  {
-    name: "shrimp",
-    img: "./assets/images/cards/shrimp.svg",
-  },
-  {
-    name: "lion",
-    img: "./assets/images/cards/lion.svg",
-  },
-  {
-    name: "zebra",
-    img: "./assets/images/cards/zebra.svg",
-  },
-  {
-    name: "fox",
-    img: "./assets/images/cards/fox.svg",
-  },
-  {
-    name: "jellyfish",
-    img: "./assets/images/cards/jellyfish.svg",
-  },
-  {
-    name: "penguin",
-    img: "./assets/images/cards/penguin.svg",
-  },
-];
-
+function getData() {
+  fetch(
+    "https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/gifts.json"
+  )
+    .then((response) => response.json())
+    .then((cards) => {
+      updateCards(cards);
+    });
+}
 let selectedCards = [];
 const matchedCards = [];
 let clickCounter = 0;
 let movementsCounter = 0;
 let timer = null;
+let timeoutId = null;
+
+// rendering cards-----------------------------------------------------------------
+
+const updateCards = (cards) => {
+  const doubledCards = doublingCards(cards)
+  const shuffledCards = shufflingCards(doubledCards);
+  shuffledCards.forEach((card) => {
+      const cardDiv = createCardDiv(card);
+      cardContainer.appendChild(cardDiv);
+      cardDiv.addEventListener("click", () => {
+        clickHandler(cardDiv, card);
+      });
+    });
+};
+
+//shuffle cards------------------------------------------------------------
+
+const shufflingCards = (cards) => {
+  const shuffledCards = cards.sort(() => Math.random() - 0.5);
+  return shuffledCards;
+};
 
 // doublecards----------------------------------------------------------------------
 
-const doublingCards = () => {
-  let doubleCards = [...cards, ...cards];
-  const doubleCardsWithId = doubleCards.map((card, index) => {
+const doublingCards = (cards) => {
+  let doubledCards = [...cards, ...cards];
+  const doubleCardsWithId = doubledCards.map((card, index) => {
     return { ...card, id: index + 1 };
   });
   return doubleCardsWithId;
 };
 
-//shuffle cards------------------------------------------------------------
-
-const shufflingCards = () => {
-  const cards = doublingCards();
-  const shuffledCards = cards.sort(() => Math.random() - 0.5);
-  return shuffledCards;
-};
 
 // create dynamic cards ----------------------------------------------------------------
 
@@ -92,22 +96,6 @@ const flippingCards = (flipCard) => {
 let flipingBackCard = (flipBack) => {
   flipBack.classList.remove("flipped");
 };
-// rendering cards-----------------------------------------------------------------
-
-const updateCards = () => {
-  const shuffledcards = shufflingCards();
-  const renderShuffledCards = () => {
-    shuffledcards.map((card) => {
-      const cardDiv = createCardDiv(card);
-      cardContainer.appendChild(cardDiv);
-      cardDiv.addEventListener("click", () => {
-        clickHandler(cardDiv, card);
-      });
-    });
-  };
-  renderShuffledCards();
-};
-updateCards();
 
 // click handler function----------------------------------------------------
 
@@ -128,6 +116,15 @@ function clickHandler(cardDiv, card) {
     movementsCounter++;
     movementsContainer.textContent = movementsCounter;
   }
+
+  if (selectedCards.length >= 3) {
+    clearTimeout(timeoutId);
+    selectedCards.forEach((selectedCard) => {
+      const cardDiv = document.getElementById(`${selectedCard.id}`);
+      flipingBackCard(cardDiv);
+      selectedCards = [];
+    });
+  }
 }
 
 // checkMatch function--------------------------------------------------------
@@ -145,19 +142,21 @@ function checkMatch() {
 
     matchedCards.push(firstCard);
     matchedCards.push(secondCard);
-    
+
     // check if all cards matched
-    if(matchedCards.length === 16){
-      stopTimer()
-      alert('you win')
+    if (matchedCards.length === 16) {
+      stopTimer();
+      setTimeout(() => {
+        winAlert();
+      }, 1000);
     }
-    
   } else {
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
       flipingBackCard(firstCardDiv);
       flipingBackCard(secondCardDiv);
-    }, 1000);
-    selectedCards = [];
+      selectedCards = [];
+      timeoutId = null;
+    }, 1500);
   }
 }
 
@@ -172,7 +171,9 @@ const startTimer = () => {
       second = 0;
       minute++;
     }
-    const formattedTime = `${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`;
+    const formattedTime = `${minute.toString().padStart(2, "0")}:${second
+      .toString()
+      .padStart(2, "0")}`;
     seconds.textContent = formattedTime;
   }, 1000);
 };
@@ -184,20 +185,30 @@ const stopTimer = () => {
 };
 
 // new game button fuction------------------------------------------------
+newGameButtons.forEach((newGameButton) => {
+  newGameButton.addEventListener("click", () => {
+    alertOverlay.style.display = "none";
+    alertContainer.style.display = "none";
+    // reset cards
+    cardContainer.innerHTML = "";
+    getData()
 
-newGameButton.addEventListener("click", () => {
-  // reset cards
-  cardContainer.innerHTML = "";
-  updateCards();
+    // reset timer
+    clickCounter = 0;
+    seconds.textContent = "00:00";
+    stopTimer();
 
-  // reset timer
-  clickCounter = 0;
-  seconds.textContent = "00:00";
-  stopTimer();
-
-  // reset movements
-  movementsCounter = 0;
-  movementsContainer.textContent = 0 ;
+    // reset movements
+    movementsCounter = 0;
+    movementsContainer.textContent = 0;
+  });
 });
+// win alert popup--------------------------------------------------------
+const winAlert = () => {
+  alertOverlay.style.display = "block";
+  alertContainer.style.display = "block";
+  winMovements.innerText = movementsContainer.textContent;
+  winTime.innerText = seconds.textContent;
+};
 
-// game ends -------------------------------------------------------------------
+getData()
