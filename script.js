@@ -4,6 +4,7 @@ const alertOverlay = document.querySelector("[data-id='alert-overlay']");
 const winTime = document.querySelector("[data-id='win-time']");
 const winMovements = document.querySelector("[data-id='win-movements']");
 const newGameButtons = document.querySelectorAll("[data-id='new-game-btn']");
+const backToMenuButtons = document.querySelector("[data-id='back-to-menu']");
 // timer
 const seconds = document.getElementById("seconds");
 // movements
@@ -22,13 +23,16 @@ easyLevelButton.addEventListener('click' , () => {
   welcomePageSection.style.display = "none";
   gameSection.style.display = 'block';
   easyLevelData()
-})
+});
 hardLevelButton.addEventListener('click' , () => {
   isEasyGame = false;
   welcomePageSection.style.display = "none";
   gameSection.style.display = 'block';
   cardContainer.style.gridTemplateColumns ='repeat(5 , 1fr)'
   hardLevelData()
+});
+backToMenuButtons.addEventListener('click', () =>{ 
+  location.reload();
 })
 // fetch Data----------------------------------------------
 
@@ -164,7 +168,7 @@ function checkMatch() {
       stopTimer();
       setTimeout(() => {
         winAlert();
-      }, 1000);
+      }, 500);
     }
   } else {
     timeoutId = setTimeout(() => {
@@ -172,7 +176,7 @@ function checkMatch() {
       flipingBackCard(secondCardDiv);
       selectedCards = [];
       timeoutId = null;
-    }, 1500);
+    }, 1200);
   }
 }
 
