@@ -42,7 +42,7 @@ async function hardLevelData(){
   const cards = await response.json();
   updateCards(cards);
 }
-
+let cardLength = 0;
 let isEasyGame ;
 let selectedCards = [];
 const matchedCards = [];
@@ -55,6 +55,7 @@ let timeoutId = null;
 
 const updateCards = (cards) => {
   const doubledCards = doublingCards(cards)
+  cardLength = doubledCards.length;
   const shuffledCards = shufflingCards(doubledCards);
   shuffledCards.forEach((card) => {
       const cardDiv = createCardDiv(card);
@@ -159,7 +160,7 @@ function checkMatch() {
     matchedCards.push(secondCard);
 
     // check if all cards matched
-    if (matchedCards.length % 16 === 0) {
+    if (matchedCards.length % cardLength === 0) {
       stopTimer();
       setTimeout(() => {
         winAlert();
