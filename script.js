@@ -22,17 +22,23 @@ easyLevelButton.addEventListener('click' , () => {
   isEasyGame = true;
   welcomePageSection.style.display = "none";
   gameSection.style.display = 'block';
+  cardContainer.style.gridTemplateColumns ='repeat(4 , 1fr)'
+  resetGame();
   easyLevelData()
 });
 hardLevelButton.addEventListener('click' , () => {
   isEasyGame = false;
   welcomePageSection.style.display = "none";
-  gameSection.style.display = 'block';
+  gameSection.style.display = 'grid';
   cardContainer.style.gridTemplateColumns ='repeat(5 , 1fr)'
+  resetGame();
   hardLevelData()
 });
 backToMenuButtons.addEventListener('click', () =>{ 
-  location.reload();
+  welcomePageSection.style.display = "flex";
+  gameSection.style.display = 'none';
+  resetGame();
+
 })
 // fetch Data----------------------------------------------
 
@@ -49,7 +55,7 @@ async function hardLevelData(){
 let cardLength = 0;
 let isEasyGame ;
 let selectedCards = [];
-const matchedCards = [];
+let matchedCards = [];
 let clickCounter = 0;
 let movementsCounter = 0;
 let timer = null;
@@ -207,26 +213,39 @@ const stopTimer = () => {
 // new game button fuction------------------------------------------------
 newGameButtons.forEach((newGameButton) => {
   newGameButton.addEventListener("click", () => {
+    resetGame()
     alertOverlay.style.display = "none";
     alertContainer.style.display = "none";
     // reset cards
-    cardContainer.innerHTML = "";
     if(isEasyGame){
       easyLevelData()
     }else{
       hardLevelData()
     }
-
-    // reset timer
-    clickCounter = 0;
-    seconds.textContent = "00:00";
-    stopTimer();
-
-    // reset movements
-    movementsCounter = 0;
-    movementsContainer.textContent = 0;
   });
 });
+// reset game------------------------------------
+
+const resetGame = () => {
+  // reset cards
+  cardContainer.innerHTML = "";
+
+   // reset timer
+   clickCounter = 0;
+   seconds.textContent = "00:00";
+
+   // reset movements
+  movementsCounter = 0;
+  movementsContainer.textContent = 0;
+
+  // reset selected and matched cards
+  selectedCards = [];
+  matchedCards = [];
+
+   clearTimeout(timeoutId);
+   stopTimer();
+}
+
 // win alert popup--------------------------------------------------------
 const winAlert = () => {
   alertOverlay.style.display = "block";
