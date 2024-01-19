@@ -3,22 +3,26 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./styles.css">
     <script src="./script.js" defer></script>
     <title>Memory Game</title>
 </head>
 
 <body>
+    <!-- welcome section -->
     <section data-id="welcome-page" class="welcome-page">
         <div class="welcome-text">
             <h4>Let's play,</h4>
             <h1>MEMORY GAME</h1>
+            <h5>choose your level ...</h5>
         </div>
-        <div class="start-game">
-            <button data-id="start-game-btn" class="start-game-btn">START</button>
+        <div class="start-game-buttons">
+            <button data-id="easy-level" class="start-game-btn">EASY</button>
+            <button data-id="hard-level" class="start-game-btn">HARD</button>
         </div>
     </section>
+    <!-- game section -->
     <section data-id="game" class="game">
         <div class="info">
             <div class="timer-container">
@@ -32,8 +36,9 @@
         </div>
         <div class="card-container">
         </div>
-        <div class="new-game-btn">
+        <div class="new-game-btns">
             <button type="button" data-id="new-game-btn" >New Game</button>
+            <button type="button" data-id="back-to-menu" >menu</button>
         </div>
         <!------------------- WIN POPUP-------------->
         <div class="alert-container" data-id="alert-container">

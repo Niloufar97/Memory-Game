@@ -4,33 +4,58 @@ const alertOverlay = document.querySelector("[data-id='alert-overlay']");
 const winTime = document.querySelector("[data-id='win-time']");
 const winMovements = document.querySelector("[data-id='win-movements']");
 const newGameButtons = document.querySelectorAll("[data-id='new-game-btn']");
+const backToMenuButtons = document.querySelector("[data-id='back-to-menu']");
 // timer
 const seconds = document.getElementById("seconds");
 // movements
 const movementsContainer = document.getElementById("movements");
 // welcome section
 const welcomePageSection = document.querySelector('[data-id = "welcome-page"]');
-const startGameButton = document.querySelector('[data-id = "start-game-btn"]');
+const easyLevelButton = document.querySelector('[data-id = "easy-level"]');
+const hardLevelButton = document.querySelector('[data-id = "hard-level"]');
 // game section
 const gameSection = document.querySelector("[data-id = 'game']")
-// navigate to game page
-startGameButton.addEventListener('click' , () => {
+
+// navigate to game page------------------------------------------------------
+
+easyLevelButton.addEventListener('click' , () => {
+  isEasyGame = true;
   welcomePageSection.style.display = "none";
   gameSection.style.display = 'block';
+  cardContainer.style.gridTemplateColumns ='repeat(4 , 1fr)'
+  resetGame();
+  easyLevelData()
+});
+hardLevelButton.addEventListener('click' , () => {
+  isEasyGame = false;
+  welcomePageSection.style.display = "none";
+  gameSection.style.display = 'grid';
+  cardContainer.style.gridTemplateColumns ='repeat(5 , 1fr)'
+  resetGame();
+  hardLevelData()
+});
+backToMenuButtons.addEventListener('click', () =>{ 
+  welcomePageSection.style.display = "flex";
+  gameSection.style.display = 'none';
+  resetGame();
+
 })
 // fetch Data----------------------------------------------
 
-function getData() {
-  fetch(
-    "https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/gifts.json"
-  )
-    .then((response) => response.json())
-    .then((cards) => {
-      updateCards(cards);
-    });
+async function easyLevelData(){
+  const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/newGifts.json");
+  const cards = await response.json();
+  updateCards(cards);
 }
+async function hardLevelData(){
+  const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/newCactus.json");
+  const cards = await response.json();
+  updateCards(cards);
+}
+let cardLength = 0;
+let isEasyGame ;
 let selectedCards = [];
-const matchedCards = [];
+let matchedCards = [];
 let clickCounter = 0;
 let movementsCounter = 0;
 let timer = null;
@@ -40,6 +65,7 @@ let timeoutId = null;
 
 const updateCards = (cards) => {
   const doubledCards = doublingCards(cards)
+  cardLength = doubledCards.length;
   const shuffledCards = shufflingCards(doubledCards);
   shuffledCards.forEach((card) => {
       const cardDiv = createCardDiv(card);
@@ -107,7 +133,7 @@ function clickHandler(cardDiv, card) {
 
   flippingCards(cardDiv);
 
-  if (!matchedCards.includes(card) && !selectedCards.includes(card)) {
+  if (!matchedCards.includes(card) && !selectedCards.includes(card)){
     selectedCards.push(card);
   }
 
@@ -144,11 +170,11 @@ function checkMatch() {
     matchedCards.push(secondCard);
 
     // check if all cards matched
-    if (matchedCards.length === 16) {
+    if (matchedCards.length % cardLength === 0) {
       stopTimer();
       setTimeout(() => {
         winAlert();
-      }, 1000);
+      }, 500);
     }
   } else {
     timeoutId = setTimeout(() => {
@@ -156,7 +182,7 @@ function checkMatch() {
       flipingBackCard(secondCardDiv);
       selectedCards = [];
       timeoutId = null;
-    }, 1500);
+    }, 1200);
   }
 }
 
@@ -187,22 +213,39 @@ const stopTimer = () => {
 // new game button fuction------------------------------------------------
 newGameButtons.forEach((newGameButton) => {
   newGameButton.addEventListener("click", () => {
+    resetGame()
     alertOverlay.style.display = "none";
     alertContainer.style.display = "none";
     // reset cards
-    cardContainer.innerHTML = "";
-    getData()
-
-    // reset timer
-    clickCounter = 0;
-    seconds.textContent = "00:00";
-    stopTimer();
-
-    // reset movements
-    movementsCounter = 0;
-    movementsContainer.textContent = 0;
+    if(isEasyGame){
+      easyLevelData()
+    }else{
+      hardLevelData()
+    }
   });
 });
+// reset game------------------------------------
+
+const resetGame = () => {
+  // reset cards
+  cardContainer.innerHTML = "";
+
+   // reset timer
+   clickCounter = 0;
+   seconds.textContent = "00:00";
+
+   // reset movements
+  movementsCounter = 0;
+  movementsContainer.textContent = 0;
+
+  // reset selected and matched cards
+  selectedCards = [];
+  matchedCards = [];
+
+   clearTimeout(timeoutId);
+   stopTimer();
+}
+
 // win alert popup--------------------------------------------------------
 const winAlert = () => {
   alertOverlay.style.display = "block";
@@ -210,5 +253,3 @@ const winAlert = () => {
   winMovements.innerText = movementsContainer.textContent;
   winTime.innerText = seconds.textContent;
 };
-
-getData()
