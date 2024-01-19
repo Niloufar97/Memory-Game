@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 body{
+    max-height: 100vh;
     display: grid;
     place-content: center;
     align-items: center;
