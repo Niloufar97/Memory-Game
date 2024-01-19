@@ -64,7 +64,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
+    margin-top: 1.3rem;
 }
 .new-game-btns button{
     margin: 0 1rem;
@@ -75,9 +75,9 @@ body{
     border: 1px groove gray;
 }
 .card-container{
-    margin-top: 1.5rem;
+    margin-top: 1.2rem;
     width: 700px;
-    height: 600px;
+    height: 580px;
     padding: 1rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
