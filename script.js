@@ -43,12 +43,12 @@ backToMenuButtons.addEventListener('click', () =>{
 // fetch Data----------------------------------------------
 
 async function easyLevelData(){
-  const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/gifts.json");
+  const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/newGifts.json");
   const cards = await response.json();
   updateCards(cards);
 }
 async function hardLevelData(){
-  const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/cactus.json");
+  const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/newCactus.json");
   const cards = await response.json();
   updateCards(cards);
 }
