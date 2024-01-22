@@ -217,11 +217,7 @@ newGameButtons.forEach((newGameButton) => {
     alertOverlay.style.display = "none";
     alertContainer.style.display = "none";
     // reset cards
-    if(isEasyGame){
-      easyLevelData()
-    }else{
-      hardLevelData()
-    }
+    isEasyGame ? easyLevelData() : hardLevelData();
   });
 });
 // reset game------------------------------------
