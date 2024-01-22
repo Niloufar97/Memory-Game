@@ -158,3 +158,63 @@ body{
     background-color: rgb(201, 234, 247);
 
 }
+@media screen and (max-width : 500px) {
+    .start-game-buttons{
+        display: flex;
+        flex-direction: column;
+    }
+    .welcome-text h1{
+        font-size: 4rem;
+    }
+    .game{
+        display: flex;
+        width: 390px;
+        margin: 1rem  auto;
+    }
+    .card-container{
+        width: 380px;
+        height: 380px;  
+    }
+    .info , .new-game-btns {
+        width: inherit;
+    }
+    .card{
+        width: 97%;
+        height: 97%;
+    }
+    .alert-container{
+        width: inherit;
+        height: max-content;
+    }
+    .win-message{
+        font-size: 2rem;
+    }
+}
+@media screen and (min-width: 500px) and (max-width: 850px) {
+    .welcome-text h1{
+        font-size: 4rem;
+    }
+    .game{
+        display: flex;
+        width: 500px;
+        margin: 1rem  auto;
+    }
+    .card-container{
+        width: 500px;
+        height: 500px;  
+    }
+    .info , .new-game-btns {
+        width: inherit;
+    }
+    .card{
+        width: 97%;
+        height: 97%;
+    }
+    .alert-container{
+        width: inherit;
+        height: max-content;
+    }
+    .win-message{
+        font-size: 2rem;
+    }
+}
