@@ -50,21 +50,24 @@ body{
 /* game part */
 .game{
   display: none;
+
 }
 .info{
+    width:680px;
     display: flex;
     margin-top: 2rem;
     justify-content: space-around;
     font-size: 1.5rem;
     border: 1px groove gray;
     border-radius: 1rem;
-    padding: 0.5rem;
+    padding: 0.4rem;
 }
 .new-game-btns{
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 1.3rem;
+    width:680px;
 }
 .new-game-btns button{
     margin: 0 1rem;
@@ -76,8 +79,8 @@ body{
 }
 .card-container{
     margin-top: 1.2rem;
-    width: 700px;
-    height: 580px;
+    width: 680px;
+    height: 550px;
     padding: 1rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
