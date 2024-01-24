@@ -14,46 +14,67 @@ const welcomePageSection = document.querySelector('[data-id = "welcome-page"]');
 const easyLevelButton = document.querySelector('[data-id = "easy-level"]');
 const hardLevelButton = document.querySelector('[data-id = "hard-level"]');
 // game section
-const gameSection = document.querySelector("[data-id = 'game']")
+const gameSection = document.querySelector("[data-id = 'game']");
 
 // navigate to game page------------------------------------------------------
 
-easyLevelButton.addEventListener('click' , () => {
+easyLevelButton.addEventListener("click", () => {
   isEasyGame = true;
   welcomePageSection.style.display = "none";
-  gameSection.style.display = 'block';
-  cardContainer.style.gridTemplateColumns ='repeat(4 , 1fr)'
+  gameSection.style.display = "block";
+  cardContainer.style.gridTemplateColumns = "repeat(4 , 1fr)";
   resetGame();
-  easyLevelData()
+  fetchData().then((cards) => {
+    updateCards(cards.easyLevel);
+  });
 });
-hardLevelButton.addEventListener('click' , () => {
+hardLevelButton.addEventListener("click", () => {
   isEasyGame = false;
   welcomePageSection.style.display = "none";
-  gameSection.style.display = 'grid';
-  cardContainer.style.gridTemplateColumns ='repeat(5 , 1fr)'
+  gameSection.style.display = "grid";
+  cardContainer.style.gridTemplateColumns = "repeat(5 , 1fr)";
   resetGame();
-  hardLevelData()
+  fetchData().then((cards) => {
+    updateCards(cards.hardLevel);
+  });
 });
-backToMenuButtons.addEventListener('click', () =>{ 
+backToMenuButtons.addEventListener("click", () => {
   welcomePageSection.style.display = "flex";
-  gameSection.style.display = 'none';
+  gameSection.style.display = "none";
   resetGame();
-
-})
+});
 // fetch Data----------------------------------------------
 
-async function easyLevelData(){
-  const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/newGifts.json");
-  const cards = await response.json();
-  updateCards(cards);
+async function fetchData() {
+  try {
+    const response = await fetch(
+      "https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/gameCards.json"
+    );
+    const cards = await response.json();
+    return cards;
+  } catch (error) {
+    console.error(error);
+  }
 }
-async function hardLevelData(){
-  const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/newCactus.json");
-  const cards = await response.json();
-  updateCards(cards);
-}
+
+
+// async function easyLevelData(){
+//   try{
+//     const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/newGifts.json");
+//     const cards = await response.json();
+//     updateCards(cards);
+//   }
+//   catch(error){
+//     console.error(error)
+//   }
+// }
+// async function hardLevelData(){
+//   const response = await fetch("https://raw.githubusercontent.com/Niloufar97/Niloufar97.github.io/main/memory-game/newCactus.json");
+//   const cards = await response.json();
+//   updateCards(cards);
+// }
 let cardLength = 0;
-let isEasyGame ;
+let isEasyGame;
 let selectedCards = [];
 let matchedCards = [];
 let clickCounter = 0;
@@ -64,16 +85,16 @@ let timeoutId = null;
 // rendering cards-----------------------------------------------------------------
 
 const updateCards = (cards) => {
-  const doubledCards = doublingCards(cards)
+  const doubledCards = doublingCards(cards);
   cardLength = doubledCards.length;
   const shuffledCards = shufflingCards(doubledCards);
   shuffledCards.forEach((card) => {
-      const cardDiv = createCardDiv(card);
-      cardContainer.appendChild(cardDiv);
-      cardDiv.addEventListener("click", () => {
-        clickHandler(cardDiv, card);
-      });
+    const cardDiv = createCardDiv(card);
+    cardContainer.appendChild(cardDiv);
+    cardDiv.addEventListener("click", () => {
+      clickHandler(cardDiv, card);
     });
+  });
 };
 
 //shuffle cards------------------------------------------------------------
@@ -92,7 +113,6 @@ const doublingCards = (cards) => {
   });
   return doubleCardsWithId;
 };
-
 
 // create dynamic cards ----------------------------------------------------------------
 
@@ -133,7 +153,7 @@ function clickHandler(cardDiv, card) {
 
   flippingCards(cardDiv);
 
-  if (!matchedCards.includes(card) && !selectedCards.includes(card)){
+  if (!matchedCards.includes(card) && !selectedCards.includes(card)) {
     selectedCards.push(card);
   }
 
@@ -213,11 +233,17 @@ const stopTimer = () => {
 // new game button fuction------------------------------------------------
 newGameButtons.forEach((newGameButton) => {
   newGameButton.addEventListener("click", () => {
-    resetGame()
+    resetGame();
     alertOverlay.style.display = "none";
     alertContainer.style.display = "none";
     // reset cards
-    isEasyGame ? easyLevelData() : hardLevelData();
+    isEasyGame
+      ? fetchData().then((cards) => {
+          updateCards(cards.easyLevel);
+        })
+      : fetchData().then((cards) => {
+          updateCards(cards.hardLevel)
+      });
   });
 });
 // reset game------------------------------------
@@ -226,11 +252,11 @@ const resetGame = () => {
   // reset cards
   cardContainer.innerHTML = "";
 
-   // reset timer
-   clickCounter = 0;
-   seconds.textContent = "00:00";
+  // reset timer
+  clickCounter = 0;
+  seconds.textContent = "00:00";
 
-   // reset movements
+  // reset movements
   movementsCounter = 0;
   movementsContainer.textContent = 0;
 
@@ -238,9 +264,9 @@ const resetGame = () => {
   selectedCards = [];
   matchedCards = [];
 
-   clearTimeout(timeoutId);
-   stopTimer();
-}
+  clearTimeout(timeoutId);
+  stopTimer();
+};
 
 // win alert popup--------------------------------------------------------
 const winAlert = () => {
