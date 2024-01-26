@@ -168,9 +168,10 @@ body{
     }
     .welcome-text h1{
         font-size: 4rem;
+        
     }
     .game{
-        display: flex;
+        display: none;
         width: 390px;
         margin: 1rem  auto;
     }
@@ -180,7 +181,7 @@ body{
     }
     .info , .new-game-btns {
         width: inherit;
-    }
+    } 
     .card{
         width: 97%;
         height: 97%;
@@ -198,7 +199,7 @@ body{
         font-size: 4rem;
     }
     .game{
-        display: flex;
+        display: none;
         width: 500px;
         margin: 1rem  auto;
     }
